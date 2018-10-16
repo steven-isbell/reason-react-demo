@@ -30,7 +30,6 @@ let make = children => {
     let numItems = List.length(items);
     <div className="app">
       <div className="title">
-        {str("What to do")}
         <button onClick={_e => send(AddItem)}> {str("Add Item")} </button>
       </div>
       <div className="items"> {str("Nothing")} </div>

@@ -1,5 +1,7 @@
 let component = ReasonReact.statelessComponent("Header");
 
+let str = ReasonReact.string;
+
 let style =
   Css.{
     "header":
@@ -19,12 +21,10 @@ let make = _children => {
   ...component,
   render: _self =>
     <header className=style##header>
-      <span className=style##title>
-        {ReasonReact.string("Reason ToDo")}
-      </span>
+      <span className=style##title> {str("Reason ToDo")} </span>
       <div className=style##search_input_wrapper>
         <input className=style##search_input placeholder="search" />
-        <button> {ReasonReact.string("Search")} </button>
+        <button> {str("Search")} </button>
       </div>
     </header>,
 };

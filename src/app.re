@@ -7,7 +7,6 @@ let make = _children => {
   render: _self =>
     <div className="app">
       <Header />
-      <div className="title"> {ReasonReact.string("What to do")} </div>
-      <div className="items"> {ReasonReact.string("Nothing")} </div>
+      <Todo_1_1 />
     </div>,
 };

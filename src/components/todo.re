@@ -1,11 +1,5 @@
-type item = {
-  id: int,
-  title: string,
-  completed: bool,
-};
-
 type state = {
-  items: list(item),
+  items: list(Todotype.item),
   inputText: string,
 };
 
@@ -20,7 +14,11 @@ let component = ReasonReact.reducerComponent("Todo");
 let make = _children => {
   let handleSubmit = state => {
     let newId: int = List.length(state.items);
-    let newItem: item = {id: newId, title: state.inputText, completed: false};
+    let newItem: Todotype.item = {
+      id: newId,
+      title: state.inputText,
+      completed: false,
+    };
     let newList = [newItem, ...state.items];
     ReasonReact.Update({items: newList, inputText: ""});
   };
@@ -73,7 +71,7 @@ let make = _children => {
             ReasonReact.array(
               Array.of_list(
                 List.map(
-                  (item: item) =>
+                  (item: Todotype.item) =>
                     <Item
                       key={string_of_int(item.id)}
                       item

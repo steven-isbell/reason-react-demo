@@ -5,7 +5,7 @@ let make = (~item: Todotype.item, ~onRemove, ~onToggle, _children) => {
   render: _self =>
     <div className="item">
       <input
-        _type="checkbox"
+        type_="checkbox"
         checked={item.completed}
         onChange={_ => onToggle(item.id)}
       />

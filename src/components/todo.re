@@ -39,7 +39,7 @@ let make = _children => {
               ...state,
               items:
                 List.map(
-                  (item: item) =>
+                  (item: Todotype.item) =>
                     item.id == id ?
                       {...item, completed: !item.completed} : item,
                   state.items,
@@ -51,7 +51,10 @@ let make = _children => {
             ReasonReact.Update({
               ...state,
               items:
-                List.filter((item: item) => item.id !== id, state.items),
+                List.filter(
+                  (item: Todotype.item) => item.id !== id,
+                  state.items,
+                ),
             })
         )
       | Submit => (state => handleSubmit(state))

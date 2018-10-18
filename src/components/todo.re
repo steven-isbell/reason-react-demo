@@ -1,41 +1,91 @@
 type item = {
+  id: int,
   title: string,
   completed: bool,
 };
 
-type state = {items: list(item)};
+type state = {
+  items: list(item),
+  inputText: string,
+};
 
 type action =
-  | AddItem;
+  | InputText(string)
+  | Toggle(int)
+  | RemoveItem(int)
+  | Submit;
 
-let component = ReasonReact.reducerComponent("TodoApp");
+let component = ReasonReact.reducerComponent("Todo");
 
-let str = ReasonReact.string;
-
-let newItem = () => {title: "Complete a task", completed: true};
-
-let make = children => {
-  ...component,
-  initialState: () => {
-    items: [
-      {title: "Learn Reason", completed: false},
-      {title: "Learn Reason React", completed: false},
-    ],
-  },
-  reducer: (action, {items}) =>
-    switch (action) {
-    | AddItem => ReasonReact.Update({items: [newItem(), ...items]})
+let make = _children => {
+  let handleSubmit = state => {
+    let newId: int = List.length(state.items);
+    let newItem: item = {id: newId, title: state.inputText, completed: false};
+    let newList = [newItem, ...state.items];
+    ReasonReact.Update({items: newList, inputText: ""});
+  };
+  {
+    ...component,
+    initialState: () => {
+      items: [{id: 0, title: "Fix more bugs", completed: false}],
+      inputText: "",
     },
-  render: ({state: {items}, send}) => {
-    let numItems = List.length(items);
-    <div className="app">
-      <div className="title">
-        <button onClick={_e => send(AddItem)}> {str("Add Item")} </button>
-      </div>
-      <div className="items"> {str("Nothing")} </div>
-      <div className="footer">
-        {str(string_of_int(numItems) ++ (numItems > 1 ? " items" : " item"))}
-      </div>
-    </div>;
-  },
+    reducer: action =>
+      switch (action) {
+      | InputText(newText) => (
+          state => ReasonReact.Update({...state, inputText: newText})
+        )
+      | Toggle(id) => (
+          state =>
+            ReasonReact.Update({
+              ...state,
+              items:
+                List.map(
+                  (item: item) =>
+                    item.id == id ?
+                      {...item, completed: !item.completed} : item,
+                  state.items,
+                ),
+            })
+        )
+      | RemoveItem(id) => (
+          state =>
+            ReasonReact.Update({
+              ...state,
+              items:
+                List.filter((item: item) => item.id !== id, state.items),
+            })
+        )
+      | Submit => (state => handleSubmit(state))
+      },
+    render: ({state: {items, inputText}, send}) =>
+      <div className="app">
+        <div className="app-header">
+          <div className="title"> {ReasonReact.string("Todo List")} </div>
+        </div>
+        <Input
+          submit={_ => send(Submit)}
+          value=inputText
+          onInputText={text => send(InputText(text))}
+        />
+        <div className="list">
+          {
+            ReasonReact.array(
+              Array.of_list(
+                List.map(
+                  (item: item) =>
+                    <Item
+                      key={string_of_int(item.id)}
+                      item
+                      onRemove={id => send(RemoveItem(id))}
+                      onToggle={id => send(Toggle(id))}
+                    />,
+                  items,
+                ),
+              ),
+            )
+          }
+        </div>
+      </div>,
+  };
 };

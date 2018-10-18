@@ -18,9 +18,9 @@
   padding: 20px;
   color: white;
 }
-.app {
-  width: 500px;
-  margin: 10px;
+.container {
+  width: 1200px;
+  margin: 0 auto;
 }
 .app-header {
   margin: 10px;

@@ -25,7 +25,7 @@ let make = _children => {
   {
     ...component,
     initialState: () => {
-      items: [{id: 0, title: "Fix more bugs", completed: false}],
+      items: [{id: 0, title: "Add Some Todos", completed: false}],
       inputText: "",
     },
     reducer: action =>
@@ -62,7 +62,9 @@ let make = _children => {
     render: ({state: {items, inputText}, send}) =>
       <div className="app">
         <div className="app-header">
-          <div className="title"> {ReasonReact.string("Todo List")} </div>
+          <div className="title">
+            {ReasonReact.string("Reason Todo List")}
+          </div>
         </div>
         <Input
           submit={_ => send(Submit)}

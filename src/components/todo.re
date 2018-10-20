@@ -1,8 +1,8 @@
-let component = ReasonReact.reducerComponent("Todo");
+let component = ReasonReact.statelessComponent("Todo");
 
-let make = _children => {
+let make = (~items, ~inputText, _children) => {
   ...component,
-  render: ({state: {items, inputText}, send}) =>
+  render: ({send}) =>
     <div className="app">
       <div className="app-header">
         <div className="title">

@@ -11,7 +11,7 @@ type action =
   | RemoveItem(int)
   | Submit;
 
-let component = ReasonReact.statelessComponent("App");
+let component = ReasonReact.reducerComponent("App");
 
 let make = _children => {
   let handleSubmit = state => {
@@ -61,10 +61,10 @@ let make = _children => {
         )
       | Submit => (state => handleSubmit(state))
       },
-    render: _self =>
+    render: ({state: {items, inputText}}) =>
       <div className="app">
         <Header />
-        <div className="container"> <Todo /> </div>
+        <div className="container"> <Todo items inputText /> </div>
       </div>,
   };
 };
